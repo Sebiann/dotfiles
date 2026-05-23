@@ -1,8 +1,12 @@
 README.md
-{{- if ne .chezmoi.hostname "serch5" }}
+{{- if ne .chezmoi.osRelease.id "arch" }}
 .config/rofi
 .config/rofi-games
 .config/sway
 .config/swaync
 .config/waybar
+{{- end }}
+
+{{- if (and (ne .chezmoi.osRelease.id "debian") (ne .chezmoi.osRelease.id "ubuntu")) }}
+.config/resticprofile
 {{- end }}

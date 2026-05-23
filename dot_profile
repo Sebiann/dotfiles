@@ -1,0 +1,8 @@
+# Added by Toolbox App
+export PATH="$PATH:/home/sebastian/.local/share/JetBrains/Toolbox/scripts"
+
+# Fixes Dolphin not seeing programms in open with
+XDG_MENU_PREFIX=plasma- kbuildsycoca6
+. "$HOME/.cargo/env"
+
+export EDITOR=micro

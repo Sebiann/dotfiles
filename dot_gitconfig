@@ -1,0 +1,23 @@
+[user]
+	email = code@sebiann.moe
+	name = Sebastian
+	signingkey = /home/sebastian/.ssh/id_ecdsa_sk_yubi.pub
+[core]
+	editor = micro
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[gpg]
+	format = ssh
+[credential]
+	helper = cache --timeout=900
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = master
+[alias]
+	cs = commit -s
+	csv = "!git commit -s -m \"Vault Backup $(date -Iseconds)\""
+[fetch]
+	prune = true

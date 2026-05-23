@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <!-- Set default sans-serif -->
+  <alias>
+    <family>sans-serif</family>
+    <prefer>
+      <family>Pixel Font - Owlet</family>
+    </prefer>
+  </alias>
+
+  <!-- Set default serif -->
+  <alias>
+    <family>serif</family>
+    <prefer>
+      <family>Pixel Font - Owlet</family>
+    </prefer>
+  </alias>
+
+  <!-- Set default monospace -->
+  <alias>
+    <family>monospace</family>
+    <prefer>
+      <family>Pixel Font - Owlet</family>
+    </prefer>
+  </alias>
+
+  <!-- Ignore any app-requested sizes and force pixelsize -->
+  <match target="pattern">
+    <!-- Delete any requested size/pixelsize first -->
+    <edit name="size" mode="delete"/>
+    <edit name="pixelsize" mode="delete"/>
+
+    <!-- Assign fixed pixelsize -->
+    <edit name="pixelsize" mode="assign">
+      <double>32</double>
+    </edit>
+  </match>
+</fontconfig>

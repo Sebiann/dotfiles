@@ -1,0 +1,9 @@
+@theme "catppuccin-default"
+configuration {
+	modes: [window,drun,run,ssh,calc,combi];
+	combi-modes: [window,drun,ssh,run,calc,games];
+	show-icons: true;
+	calc {
+		no-history: true;
+	}
+}

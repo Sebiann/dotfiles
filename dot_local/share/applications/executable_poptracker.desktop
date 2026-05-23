@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Poptracker
+Path=/home/sebastian/Documents/PopTracker
+Exec=./PopTracker-0.33.0-x86_64.AppImage
+Icon=PopTracker
+Type=Application

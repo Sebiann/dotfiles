@@ -1,0 +1,8 @@
+README.md
+{{- if ne .chezmoi.hostname "serch5" }}
+.config/rofi
+.config/rofi-games
+.config/sway
+.config/swaync
+.config/waybar
+{{- end }}

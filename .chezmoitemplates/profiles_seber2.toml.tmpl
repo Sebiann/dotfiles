@@ -1,0 +1,52 @@
+#:schema https://creativeprojects.github.io/resticprofile/jsonschema/config-1.json
+#
+# indentation is not needed but it makes it easier to read ;)
+#
+version = "1"
+
+[default]
+	default-command = "snapshots"
+	initialize = false
+	password-file = "$HOME/.config/resticprofile/password.txt"
+	
+	[default.env]
+		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
+		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
+
+[groups]
+	full-backup = [ "minecraft", "foundry", "cloudie" ]
+
+[minecraft]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2"
+	exclude-file = "$HOME/.config/resticprofile/excludes.txt"
+	
+	[minecraft.backup]
+		run-before = 'sh $HOME/Minecraft-Servers/scripts/run-before.sh'
+		run-after = 'sh $HOME/Minecraft-Servers/scripts/run-after.sh'
+		verbose = true
+		source = [ "$HOME/Minecraft-Servers" ]
+		schedule = "00:00"
+		schedule-permission = "user"
+
+[foundry]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2foundry"
+	
+	[foundry.backup]
+		verbose = true
+		source = [ "$HOME/import/foundrydata" ]
+		schedule = "00:00"
+		schedule-permission = "user"
+
+[cloudie]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2cloudie10"
+	
+	[cloudie.backup]
+		run-before = 'sh $HOME/Minecraft-Servers/scripts/before-cloudie.sh'
+		run-after = 'sh $HOME/Minecraft-Servers/scripts/after-cloudie.sh'
+		verbose = true
+		source = [ "$HOME/Minecraft-Servers/cloudie10" ]
+		schedule = [ "01:59" ]
+		schedule-permission = "user"

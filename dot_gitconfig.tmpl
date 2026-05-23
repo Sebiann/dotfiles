@@ -1,0 +1,5 @@
+{{- if eq .chezmoi.osRelease.id "arch" }}
+{{-   include ".gitconfig_serch5" -}}
+{{- else if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu")) }}
+{{-   include ".gitconfig_seber2" -}}
+{{- end }}

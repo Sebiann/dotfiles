@@ -1,10 +1,18 @@
 {{ $passphrase := promptStringOnce . "passphrase" "passphrase" -}}
+{{- $aws_secret := promptStringOnce . "aws_secret" "AWS_SECRET_ACCESS_KEY" -}}
+{{- $aws := promptStringOnce . "aws" "AWS_ACCESS_KEY_ID" -}}
 
 encryption = "gpg"
 [data]
     passphrase = {{ $passphrase | quote }}
+    aws_secret = {{ $aws_secret | quote }}
+    aws = {{ $aws | quote}}
 [gpg]
     symmetric = true
     args = ["--quiet", "--batch", "--passphrase", {{ $passphrase | quote }}, "--no-symkey-cache"]
 [git]
+    {{- if (and (ne .chezmoi.osRelease.id "debian") (ne .chezmoi.osRelease.id "ubuntu")) }}
     autoPush = true
+    {{- else}}
+    autoPush = false
+    {{- end }}

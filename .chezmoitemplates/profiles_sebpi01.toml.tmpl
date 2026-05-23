@@ -1,0 +1,27 @@
+#:schema https://creativeprojects.github.io/resticprofile/jsonschema/config-1.json
+#
+# indentation is not needed but it makes it easier to read ;)
+#
+version = "1"
+
+[default]
+	default-command = "snapshots"
+	initialize = false
+	password-file = "$HOME/.config/resticprofile/password.txt"
+	
+	[default.env]
+		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
+		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
+
+[groups]
+	full-backup = [ "dockers" ]
+
+[dockers]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/sebpi01"
+	
+	[dockers.backup]
+		verbose = true
+		source = [ "$HOME/.env", "$HOME/compose.yml", "$HOME/docker-configs", "$HOME/dufs", "$HOME/komodo" ]
+		schedule = "00:00"
+		schedule-permission = "user"

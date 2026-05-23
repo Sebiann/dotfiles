@@ -1,0 +1,5 @@
+{{- if eq .chezmoi.hostname "seber2" -}}
+{{-   template "profiles_seber2.toml.tmpl" . -}}
+{{- else if eq .chezmoi.hostname "SebPi01" -}}
+{{-   template "profiles_sebpi01.toml.tmpl" . -}}
+{{- end -}}

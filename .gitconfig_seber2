@@ -1,0 +1,17 @@
+[user]
+	email = code@sebiann.moe
+	name = Sebiann
+	signingkey = 1EBE1250890F20C3
+[commit]
+	gpgsign = false
+	editor = micro
+[core]
+	editor = micro
+[credential]
+	helper = cache --timeout=3600
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = master
+[alias]
+	cs = commit -s

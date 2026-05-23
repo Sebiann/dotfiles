@@ -1,0 +1,3 @@
+# Exclude backups
+$HOME/Minecraft-Servers/*backup*
+$HOME/Minecraft-Servers/cloudie10

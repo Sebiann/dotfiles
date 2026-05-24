@@ -1,0 +1,9 @@
+[misc]
+pre_sudo = true
+no_retry = true
+# Removed "shell"
+only = ["system", "config_update", "flatpak", "tldr", "micro"]
+
+[linux]
+arch_package_manager = "yay"
+show_arch_news = true

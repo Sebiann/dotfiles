@@ -16,3 +16,8 @@ encryption = "gpg"
     {{- else}}
     autoPush = false
     {{- end }}
+[ignore]
+    patterns = [
+        "**/*.zwc",
+        "**/*.dat"
+    ]

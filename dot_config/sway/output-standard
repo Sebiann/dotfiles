@@ -1,0 +1,4 @@
+output DP-2 resolution 1920x1080 position 0,320
+output DP-1 resolution 2560x1440@240Hz position 1920,0
+output DP-3 resolution 1920x1080 position 4480,320
+output HDMI-A-1 disable

@@ -14,8 +14,8 @@ set $folder dolphin
 
 ### Output configuration
 output * bg /home/sebastian/.config/sway/cat-waves.png fill
-# include output-standard
-include output-tv
+include output-standard
+#include output-tv
 
 default_border none
 

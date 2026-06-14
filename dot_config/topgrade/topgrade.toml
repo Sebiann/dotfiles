@@ -1,8 +1,9 @@
 [misc]
 pre_sudo = true
-no_retry = true
-# Removed "shell"
-only = ["system", "config_update", "flatpak", "tldr", "micro"]
+ask_retry = false
+sudo_loop = true
+
+only = ["chezmoi", "flatpak", "tldr", "micro", "system"]
 
 [linux]
 arch_package_manager = "yay"

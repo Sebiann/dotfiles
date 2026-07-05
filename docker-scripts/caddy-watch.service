@@ -1,0 +1,14 @@
+# /etc/systemd/system/caddy-watch.service
+[Unit]
+Description=Watch Caddyfile and reload Caddy container
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/home/sebastian/docker-scripts/caddy-watch.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

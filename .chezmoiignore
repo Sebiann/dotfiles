@@ -12,4 +12,6 @@ README.md
 
 {{- if (and (ne .chezmoi.osRelease.id "debian") (ne .chezmoi.osRelease.id "ubuntu")) }}
 .config/resticprofile
+docker-configs
+docker-scripts
 {{- end }}

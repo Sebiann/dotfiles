@@ -1,7 +1,7 @@
 [user]
 	email = code@sebiann.moe
 	name = Sebastian
-	signingkey = /home/sebastian/.ssh/id_ecdsa_sk_yubi.pub
+	signingkey = /home/sebastian/.ssh/id_ed25519_sk.pub
 [core]
 	editor = micro
 [commit]

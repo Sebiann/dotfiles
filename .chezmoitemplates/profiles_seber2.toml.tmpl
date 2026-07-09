@@ -14,7 +14,7 @@ version = "1"
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
 
 [groups]
-	full-backup = [ "minecraft", "foundry", "cloudie" ]
+	full-backup = [ "minecraft", "foundry", "cloudie", "dockers" ]
 
 [minecraft]
 	inherit = "default"
@@ -49,4 +49,14 @@ version = "1"
 		verbose = true
 		source = [ "$HOME/Minecraft-Servers/cloudie10" ]
 		schedule = [ "01:59" ]
+		schedule-permission = "user"
+
+[dockers]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2docker"
+	
+	[dockers.backup]
+		verbose = true
+		source = [ "$HOME/.env", "$HOME/compose.yaml", "$HOME/docker-configs", "$HOME/docker-scripts" ]
+		schedule = "00:00"
 		schedule-permission = "user"

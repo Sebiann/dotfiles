@@ -54,6 +54,7 @@ version = "1"
 [dockers]
 	inherit = "default"
 	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2docker"
+	exclude-file = "$HOME/.config/resticprofile/excludes-docker.txt"
 	
 	[dockers.backup]
 		verbose = true

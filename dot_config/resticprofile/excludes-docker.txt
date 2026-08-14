@@ -1,0 +1,3 @@
+$HOME/docker-configs/caddy/certs
+$HOME/docker-configs/caddy/config
+$HOME/docker-configs/caddy/data

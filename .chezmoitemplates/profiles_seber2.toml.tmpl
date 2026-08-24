@@ -61,3 +61,14 @@ version = "1"
 		source = [ "$HOME/.env", "$HOME/compose.yaml", "$HOME/docker-configs", "$HOME/docker-scripts" ]
 		schedule = "00:00"
 		schedule-permission = "user"
+
+
+[pelican]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2pelican"
+	
+	[pelican.backup]
+		verbose = true
+		source = [ "$HOME/pelican/compose.yaml", "$HOME/pelican-backups" ]
+		schedule = "00:00"
+		schedule-permission = "user"

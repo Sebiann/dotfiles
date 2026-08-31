@@ -34,7 +34,6 @@ alias conflicts="find ~/ -name '*.sync-conflict-*' -print"
 alias ssh="kitten ssh"
 alias rpi-imager="xhost +SI:localuser:root && sudo rpi-imager"
 
-
 {{- if eq .chezmoi.osRelease.id "arch" }}
 alias ld-seber2="export DOCKER_HOST=$(docker context inspect --format '{{.Endpoints.docker.Host}}' seber2) && lazydocker"
 alias ld-sebpi01="export DOCKER_HOST=$(docker context inspect --format '{{.Endpoints.docker.Host}}' sebpi01) && lazydocker"

@@ -49,6 +49,10 @@ export AGNOSTER_DIR_BG=magenta
 export "MICRO_TRUECOLOR=1"
 export EDITOR=micro
 
+# Requires line below in a file in /etc/sudoers.d/editor
+# Defaults env_keep += "SYSTEMD_EDITOR"
+export SYSTEMD_EDITOR=micro
+
 # Created by `pipx` on 2026-01-15 21:35:29
 export PATH="$PATH:/home/sebastian/.local/bin"
 

@@ -18,7 +18,7 @@ version = "1"
 	[default.backup.send-after-fail]
 		method = "POST"
 		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}'
-		body-template = "$HOME/.config/resticprofile/gotify-fail.json.tmpl"
+		body-template = "$HOME/.config/resticprofile/gotify-fail.json"
 		headers = [{ name = "Content-Type", value = "application/json" }]
 
 	[default.env]

@@ -4,20 +4,22 @@
 #
 version = "1"
 
-[send.gotify]
-	baseURL = {{ .gotify_url | quote }}
-	token = {{ .gotify_token | quote }}
-
 [default]
 	default-command = "snapshots"
 	initialize = false
 	password-file = "$HOME/.config/resticprofile/password.txt"
 
-	[default.success]
-		send = "gotify"
+	# success ping — simple, no body needed
+	[default.backup.send-after]
+		method = "POST"
+		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=Backup OK: ${PROFILE_NAME}&priority=3'
 	
-	[default.failure]
-		send = "gotify"
+	# failure alert
+	[default.backup.send-after-fail]
+		method = "POST"
+		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}'
+		body-template = "$HOME/.config/resticprofile/gotify-fail.json.tmpl"
+		headers = [{ name = "Content-Type", value = "application/json" }]
 
 	[default.env]
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}

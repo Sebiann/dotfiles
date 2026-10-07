@@ -4,11 +4,21 @@
 #
 version = "1"
 
+[send.gotify]
+	baseURL = {{ .gotify.url | quote }}
+	token = {{ .gotify.token | quote }}
+
 [default]
 	default-command = "snapshots"
 	initialize = false
 	password-file = "$HOME/.config/resticprofile/password.txt"
+
+	[default.success]
+		send = "gotify"
 	
+	[default.failure]
+		send = "gotify"
+
 	[default.env]
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}

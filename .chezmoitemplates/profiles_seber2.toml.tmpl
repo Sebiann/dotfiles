@@ -12,8 +12,7 @@ version = "1"
 	# success ping — simple, no body needed
 	[default.backup.send-after]
 		method = "POST"
-		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=Backup OK: ${PROFILE_NAME}&priority=3'
-	
+		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=Backup%20OK%20${PROFILE_NAME}&message=${PROFILE_COMMAND}%20completed%20successfully&priority=3'	
 	# failure alert
 	[default.backup.send-after-fail]
 		method = "POST"

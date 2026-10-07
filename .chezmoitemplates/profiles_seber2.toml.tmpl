@@ -5,8 +5,8 @@
 version = "1"
 
 [send.gotify]
-	baseURL = {{ .gotify.url | quote }}
-	token = {{ .gotify.token | quote }}
+	baseURL = {{ .gotify_url | quote }}
+	token = {{ .gotify_token | quote }}
 
 [default]
 	default-command = "snapshots"

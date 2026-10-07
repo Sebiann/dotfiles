@@ -12,12 +12,12 @@ version = "1"
 	# success ping — simple, no body needed
 	[default.backup.send-after]
 		method = "POST"
-		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=${HOSTNAME}%20${PROFILE_NAME}%20BACKUP%20OK&message=${PROFILE_COMMAND}%20completed%20successfully&priority=3'	
+		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=$(hostname)%20${PROFILE_NAME}%20BACKUP%20OK&message=${PROFILE_COMMAND}%20completed%20successfully&priority=3'	
 	
 	# failure alert
 	[default.backup.send-after-fail]
 		method = "POST"
-    	url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=${HOSTNAME}%20${PROFILE_NAME}%20BACKUP%20FAILED&message=${ERROR}%20(exit%20${ERROR_EXIT_CODE})%20%5Cn${ERROR_STDERR}&priority=8'
+    	url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=$(hostname)%20${PROFILE_NAME}%20BACKUP%20FAILED&message=${ERROR}%20(exit%20${ERROR_EXIT_CODE})%20%5Cn${ERROR_STDERR}&priority=8'
 
 	[default.env]
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}

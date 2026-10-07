@@ -82,3 +82,13 @@ version = "1"
 		source = [ "$HOME/pelican/compose.yaml", "$HOME/pelican-backups" ]
 		schedule = "00:00"
 		schedule-permission = "user"
+
+[dufs]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2dufs"
+	
+	[dufs.backup]
+		verbose = true
+		source = [ "$HOME/dufs" ]
+		schedule = "00:00"
+		schedule-permission = "user"

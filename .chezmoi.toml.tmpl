@@ -1,12 +1,16 @@
 {{ $passphrase := promptStringOnce . "passphrase" "passphrase" -}}
 {{- $aws_secret := promptStringOnce . "aws_secret" "AWS_SECRET_ACCESS_KEY" -}}
 {{- $aws := promptStringOnce . "aws" "AWS_ACCESS_KEY_ID" -}}
+{{- $gotify_url := promptStringOnce . "gotify_url" "Gotify base URL" -}}
+{{- $gotify_token := promptStringOnce . "gotify_token" "Gotify app token" -}}
 
 encryption = "gpg"
 [data]
     passphrase = {{ $passphrase | quote }}
     aws_secret = {{ $aws_secret | quote }}
     aws = {{ $aws | quote}}
+    gotify_url = {{ $gotify_url | quote }}
+    gotify_token = {{ $gotify_token | quote }}
 [gpg]
     symmetric = true
     args = ["--quiet", "--batch", "--passphrase", {{ $passphrase | quote }}, "--no-symkey-cache"]

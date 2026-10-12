@@ -1,6 +1,8 @@
 README.md
 .oh-my-zsh/cache
 .config/fontconfig
+.oh-my-zsh/**/*.zwc
+.oh-my-zsh/plugins/chucknorris/fortunes/*.dat
 {{- if ne .chezmoi.osRelease.id "arch" }}
 .config/rofi
 .config/rofi-games

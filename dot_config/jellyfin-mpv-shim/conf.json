@@ -193,7 +193,7 @@
     "ui_text_min": 0,
     "ui_text_scale": 1.0,
     "use_web_seek": true,
-    "video_volume": 80,
+    "video_volume": 100,
     "window_controls": "auto",
     "window_controls_fullscreen": false,
     "window_height": 720,

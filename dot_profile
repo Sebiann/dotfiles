@@ -4,3 +4,6 @@ export PATH="$PATH:/home/sebastian/.local/share/JetBrains/Toolbox/scripts"
 # Fixes Dolphin not seeing programms in open with
 XDG_MENU_PREFIX=plasma- kbuildsycoca6
 . "$HOME/.cargo/env"
+
+# Test: stop wlroots handing fullscreen games straight to the monitor (fullscreen freeze)
+export WLR_SCENE_DISABLE_DIRECT_SCANOUT=1

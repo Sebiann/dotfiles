@@ -1,0 +1,1 @@
+{"title": "{{ .ProfileName }} BACKUP FAILED", "message": {{ .Error.Message }} exit {{ .Error.ExitCode }}: {{ .Error.Stderr | printf "%q" }}, "priority": 8}

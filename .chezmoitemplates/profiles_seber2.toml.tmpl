@@ -49,18 +49,6 @@ version = "1"
 		schedule = "00:00"
 		schedule-permission = "user"
 
-[cloudie]
-	inherit = "default"
-	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2cloudie10"
-	
-	[cloudie.backup]
-		run-before = 'sh $HOME/Minecraft-Servers/scripts/before-cloudie.sh'
-		run-after = 'sh $HOME/Minecraft-Servers/scripts/after-cloudie.sh'
-		verbose = true
-		source = [ "$HOME/Minecraft-Servers/cloudie10" ]
-		schedule = [ "01:59" ]
-		schedule-permission = "user"
-
 [dockers]
 	inherit = "default"
 	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2docker"

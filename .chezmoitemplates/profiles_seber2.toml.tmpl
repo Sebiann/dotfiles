@@ -24,7 +24,7 @@ version = "1"
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
 
 [groups]
-	full-backup = [ "minecraft", "foundry", "dockers", "pelican", "dufs" ]
+	full-backup = [ "minecraft", "foundry", "dockers", "pelican", "dufs", "journey" ]
 
 [minecraft]
 	inherit = "default"
@@ -79,4 +79,16 @@ version = "1"
 		verbose = true
 		source = [ "$HOME/dufs" ]
 		schedule = "00:00"
+		schedule-permission = "user"
+
+[journey]
+	inherit = "default"
+	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2journey"
+	
+	[journey.backup]
+		run-before = 'sh $HOME/Minecraft-Servers/scripts/before-journey.sh'
+		run-after = 'sh $HOME/Minecraft-Servers/scripts/after-journey.sh'
+		verbose = true
+		source = [ "$HOME/Minecraft-Servers/journey" ]
+		schedule = [ "06:59" ]
 		schedule-permission = "user"

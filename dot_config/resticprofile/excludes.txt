@@ -1,3 +1,4 @@
 # Exclude backups
 $HOME/Minecraft-Servers/*backup*
 $HOME/Minecraft-Servers/worlds
+$HOME/Minecraft-Servers/journey

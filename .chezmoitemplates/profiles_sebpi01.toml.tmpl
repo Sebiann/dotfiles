@@ -1,3 +1,6 @@
+{{- /* ntfy_url is apprise-style: ntfys://tk_token@host/topic/ */ -}}
+{{- $ntfy := urlParse .ntfy_url -}}
+{{- $ntfy_http := printf "%s://%s%s" (ternary "http" "https" (eq $ntfy.scheme "ntfy")) $ntfy.host (trimSuffix "/" $ntfy.path) -}}
 #:schema https://creativeprojects.github.io/resticprofile/jsonschema/config-1.json
 #
 # indentation is not needed but it makes it easier to read ;)
@@ -9,16 +12,40 @@ version = "1"
 	initialize = false
 	password-file = "$HOME/.config/resticprofile/password.txt"
 
-	# success ping — simple, no body needed
+	# success ping
 	[default.backup.send-after]
 		method = "POST"
-		url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=sebpi01%20${PROFILE_NAME}%20BACKUP%20OK&message=${PROFILE_COMMAND}%20completed%20successfully&priority=3'	
-	
+		url = '{{ $ntfy_http }}'
+		body = '${PROFILE_COMMAND} completed successfully'
+		[[default.backup.send-after.headers]]
+			name = "Authorization"
+			value = 'Bearer {{ $ntfy.userinfo }}'
+		[[default.backup.send-after.headers]]
+			name = "Title"
+			value = 'sebpi01 ${PROFILE_NAME} BACKUP OK'
+		[[default.backup.send-after.headers]]
+			name = "Tags"
+			value = "white_check_mark"
+
 	# failure alert
 	[default.backup.send-after-fail]
 		method = "POST"
-    	url = '{{ .gotify_url }}/message?token={{ .gotify_token }}&title=sebpi01%20${PROFILE_NAME}%20BACKUP%20FAILED&message=${ERROR}%20(exit%20${ERROR_EXIT_CODE})%20%5Cn${ERROR_STDERR}&priority=8'
-	
+		url = '{{ $ntfy_http }}'
+		body = """${ERROR} (exit ${ERROR_EXIT_CODE})
+${ERROR_STDERR}"""
+		[[default.backup.send-after-fail.headers]]
+			name = "Authorization"
+			value = 'Bearer {{ $ntfy.userinfo }}'
+		[[default.backup.send-after-fail.headers]]
+			name = "Title"
+			value = 'sebpi01 ${PROFILE_NAME} BACKUP FAILED'
+		[[default.backup.send-after-fail.headers]]
+			name = "Priority"
+			value = "urgent"
+		[[default.backup.send-after-fail.headers]]
+			name = "Tags"
+			value = "rotating_light"
+
 	[default.env]
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}

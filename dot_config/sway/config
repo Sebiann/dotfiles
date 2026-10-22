@@ -32,7 +32,7 @@ exec swaymsg "workspace 10; exec easyeffects;"
 exec flameshot
 exec env QT_QPA_PLATFORM=xcb copyq
 exec kdeconnectd
-exec input-remapper-control --command start --device "Razer Razer Mouse Dock Pro" --preset "Main Layout"
+exec input-remapper-control --command start --device "Razer Razer Mouse Dock Pro" --preset "Naga V3 Pro"
 
 # Fixes no 2k in games
 exec xrandr --output DP-1 --primary

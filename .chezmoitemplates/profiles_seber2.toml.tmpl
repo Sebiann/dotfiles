@@ -44,6 +44,13 @@ ${ERROR_STDERR}"""
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
 
+	[default.retention]
+		after-backup = true
+		keep-daily = 7
+		keep-weekly = 4
+		keep-monthly = 6
+		prune = true
+
 [groups]
 	full-backup = [ "minecraft", "foundry", "dockers", "pelican", "dufs", "journey" ]
 
@@ -107,9 +114,8 @@ ${ERROR_STDERR}"""
 	repository = "s3:s3.eu-central-003.backblazeb2.com/seber2journey"
 	
 	[journey.backup]
-		run-before = 'sh $HOME/Minecraft-Servers/scripts/before-journey.sh'
-		run-after = 'sh $HOME/Minecraft-Servers/scripts/after-journey.sh'
+		run-before = 'bash $HOME/Minecraft-Servers/scripts/journey-pull.sh'
 		verbose = true
 		source = [ "$HOME/Minecraft-Servers/journey" ]
-		schedule = [ "04:59" ]
+		schedule = [ "05:59" ]
 		schedule-permission = "user"

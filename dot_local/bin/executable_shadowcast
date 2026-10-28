@@ -1,0 +1,13 @@
+#!/bin/sh
+# Low-latency ShadowCast 3 viewer: audio loopback + mpv video. Closing mpv stops the audio too.
+DEV=/dev/v4l/by-id/usb-GENKI_ShadowCast_3_KT044001-video-index0
+SRC=alsa_input.usb-GENKI_ShadowCast_3_KT044001-02.analog-stereo
+
+[ -e "$DEV" ] || { notify-send "ShadowCast" "Not plugged in" 2>/dev/null; echo "ShadowCast not found" >&2; exit 1; }
+
+pw-loopback -n shadowcast-audio -C "$SRC" --latency=10 &
+trap 'kill $! 2>/dev/null' EXIT INT TERM
+
+mpv "av://v4l2:$DEV" \
+  --demuxer-lavf-o=input_format=mjpeg,video_size=1920x1080,framerate=60 \
+  --profile=low-latency --untimed --no-cache --osc=no --title=ShadowCast "$@"

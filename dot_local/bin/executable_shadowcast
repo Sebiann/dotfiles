@@ -1,13 +1,35 @@
 #!/bin/sh
 # Low-latency ShadowCast 3 viewer: audio loopback + mpv video. Closing mpv stops the audio too.
-DEV=/dev/v4l/by-id/usb-GENKI_ShadowCast_3_KT044001-video-index0
-SRC=alsa_input.usb-GENKI_ShadowCast_3_KT044001-02.analog-stereo
+# Usage: shadowcast [1080p60 | 4k60 | WIDTHxHEIGHT [FPS]] [extra mpv options]
+# Needs: mpv, PipeWire (pw-loopback, pw-cli). Works with any ShadowCast model/serial.
+die() { notify-send "ShadowCast" "$1" 2>/dev/null; echo "$1" >&2; exit 1; }
+for c in mpv pw-loopback pw-cli; do command -v $c >/dev/null || die "Missing $c - install mpv and pipewire"; done
 
-[ -e "$DEV" ] || { notify-send "ShadowCast" "Not plugged in" 2>/dev/null; echo "ShadowCast not found" >&2; exit 1; }
+DEV=$(ls /dev/v4l/by-id/usb-GENKI_ShadowCast*-video-index0 2>/dev/null | head -1)
+SRC=$(pw-cli ls Node | sed -n 's/.*node.name = "\(alsa_input\.usb-GENKI_ShadowCast[^"]*\)"/\1/p' | head -1)
+[ -n "$DEV" ] || die "ShadowCast not plugged in"
+[ -n "$SRC" ] || echo "ShadowCast audio not found, video only" >&2
 
-pw-loopback -n shadowcast-audio -C "$SRC" --latency=10 &
-trap 'kill $! 2>/dev/null' EXIT INT TERM
+SIZE=2560x1440 FPS=60
+case "$1" in
+  *[0-9][pP]*|4[kK]*)  # shorthand like 1080p60, 1440p, 4k60
+    F=${1#*[pPkK]}
+    case "${1%%[pPkK]*}" in
+      720) SIZE=1280x720 ;; 1080) SIZE=1920x1080 ;; 1440) SIZE=2560x1440 ;; 2160|4) SIZE=3840x2160 ;;
+      *) echo "Unknown resolution: $1 (use 720p, 1080p, 1440p, 4k)" >&2; exit 1 ;;
+    esac
+    case "$F" in '') ;; *[!0-9]*) echo "Bad fps in: $1" >&2; exit 1 ;; *) FPS=$F ;; esac
+    shift ;;
+  *[0-9]x[0-9]*) SIZE=$1; shift ;;
+esac
+case "$1" in ''|*[!0-9]*) ;; *) FPS=$1; shift ;; esac
+
+# if/fi (not &&) so $! is pw-loopback itself, not a subshell that would orphan it
+if [ -n "$SRC" ]; then
+  pw-loopback -n shadowcast-audio -C "$SRC" --latency=10 &
+  trap "kill $! 2>/dev/null" EXIT INT TERM
+fi
 
 mpv "av://v4l2:$DEV" \
-  --demuxer-lavf-o=input_format=mjpeg,video_size=1920x1080,framerate=60 \
+  --demuxer-lavf-o=input_format=mjpeg,video_size=$SIZE,framerate=$FPS \
   --profile=low-latency --untimed --no-cache --osc=no --title=ShadowCast "$@"

@@ -1,0 +1,13 @@
+#!/bin/sh
+# Usage: shadowcast-vol + | - | <percent>   (no arg = show volume)
+SRC=alsa_input.usb-GENKI_ShadowCast_3_KT044001-02.analog-stereo
+ID=$(pw-cli i "$SRC" 2>/dev/null | awk '/id:/{print $2; exit}')
+[ -n "$ID" ] || { echo "ShadowCast audio not found" >&2; exit 1; }
+
+case "$1" in
+  +) wpctl set-volume -l 1.0 "$ID" 5%+ ;;
+  -) wpctl set-volume "$ID" 5%- ;;
+  "") ;;
+  *) wpctl set-volume -l 1.0 "$ID" "${1%\%}%" ;;
+esac
+wpctl get-volume "$ID"

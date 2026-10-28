@@ -1,7 +1,7 @@
 #!/bin/sh
 # Usage: shadowcast-vol + | - | <percent>   (no arg = show volume)
-SRC=alsa_input.usb-GENKI_ShadowCast_3_KT044001-02.analog-stereo
-ID=$(pw-cli i "$SRC" 2>/dev/null | awk '/id:/{print $2; exit}')
+SRC=$(pw-cli ls Node | sed -n 's/.*node.name = "\(alsa_input\.usb-GENKI_ShadowCast[^"]*\)"/\1/p' | head -1)
+ID=$([ -n "$SRC" ] && pw-cli i "$SRC" 2>/dev/null | awk '/id:/{print $2; exit}')
 [ -n "$ID" ] || { echo "ShadowCast audio not found" >&2; exit 1; }
 
 case "$1" in

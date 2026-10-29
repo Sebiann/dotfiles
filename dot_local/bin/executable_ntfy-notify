@@ -1,0 +1,8 @@
+#!/bin/sh
+# Called by ntfy client; priority 4-5 (high/urgent) gets a sound and stays on screen.
+if [ "$NTFY_PRIORITY" -ge 4 ] 2>/dev/null; then
+  notify-send -i /home/sebastian/.local/share/icons/ntfy.png -a ntfy -u critical "${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
+  pw-play /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
+else
+  notify-send -i /home/sebastian/.local/share/icons/ntfy.png -a ntfy "${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
+fi

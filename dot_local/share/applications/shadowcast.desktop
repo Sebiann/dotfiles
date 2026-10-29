@@ -2,7 +2,7 @@
 Type=Application
 Name=ShadowCast
 Comment=Low-latency capture viewer
-Exec=/home/sebastian/.local/bin/shadowcast
+Exec=sh -c '"$HOME/.local/bin/shadowcast"'
 Icon=camera-video
 Terminal=false
 Categories=AudioVideo;

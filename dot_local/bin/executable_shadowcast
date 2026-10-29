@@ -8,6 +8,8 @@ for c in mpv pw-loopback pw-cli; do command -v $c >/dev/null || die "Missing $c 
 DEV=$(ls /dev/v4l/by-id/usb-GENKI_ShadowCast*-video-index0 2>/dev/null | head -1)
 SRC=$(pw-cli ls Node | sed -n 's/.*node.name = "\(alsa_input\.usb-GENKI_ShadowCast[^"]*\)"/\1/p' | head -1)
 [ -n "$DEV" ] || die "ShadowCast not plugged in"
+# fuser is from psmisc; if missing, skip the check and let mpv fail
+command -v fuser >/dev/null && fuser -s "$DEV" 2>/dev/null && die "ShadowCast is already open in another window"
 [ -n "$SRC" ] || echo "ShadowCast audio not found, video only" >&2
 
 SIZE=2560x1440 FPS=60

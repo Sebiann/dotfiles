@@ -32,6 +32,13 @@ if [ -n "$SRC" ]; then
   trap "kill $! 2>/dev/null" EXIT INT TERM
 fi
 
-mpv "av://v4l2:$DEV" \
-  --demuxer-lavf-o=input_format=mjpeg,video_size=$SIZE,framerate=$FPS \
-  --profile=low-latency --untimed --no-cache --osc=no --title=ShadowCast "$@"
+# Prefer uncompressed NV12. MJPEG only where NV12 lacks the mode; the card sends limited range but flags it full, which washes it out.
+FMT=mjpeg RANGE=--vf=format=colorlevels=limited
+if v4l2-ctl -d "$DEV" --list-frameintervals=width=${SIZE%x*},height=${SIZE#*x},pixelformat=NV12 2>/dev/null | grep -q "($FPS\.000 fps)"; then
+  FMT=nv12 RANGE=
+fi
+
+mpv "av://v4l2:$DEV" $RANGE \
+  --demuxer-lavf-o=input_format=$FMT,video_size=$SIZE,framerate=$FPS \
+  --profile=low-latency --untimed --no-cache --osc=no --title=ShadowCast \
+  --fs --fs-screen-name=DP-1 "$@"  # DP-1 is the 1440p monitor: fullscreen there maps 2560x1440 1:1, a window rescales it

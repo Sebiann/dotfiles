@@ -33,10 +33,13 @@ if [ -n "$SRC" ]; then
 fi
 
 # Prefer uncompressed NV12. MJPEG only where NV12 lacks the mode; the card sends limited range but flags it full, which washes it out.
-FMT=mjpeg RANGE=--vf=format=colorlevels=limited
+FMT=mjpeg FOURCC=MJPG RANGE=--vf=format=colorlevels=limited
 if v4l2-ctl -d "$DEV" --list-frameintervals=width=${SIZE%x*},height=${SIZE#*x},pixelformat=NV12 2>/dev/null | grep -q "($FPS\.000 fps)"; then
-  FMT=nv12 RANGE=
+  FMT=nv12 FOURCC=NV12 RANGE=
 fi
+
+# The card's first stream after power-up sends only undersized frames that FFmpeg rejects, so mpv never opens a window. Restarting the stream clears it.
+timeout 2 v4l2-ctl -d "$DEV" --set-fmt-video=width=${SIZE%x*},height=${SIZE#*x},pixelformat=$FOURCC --set-parm=$FPS --stream-mmap --stream-count=1 >/dev/null 2>&1
 
 mpv "av://v4l2:$DEV" $RANGE \
   --demuxer-lavf-o=input_format=$FMT,video_size=$SIZE,framerate=$FPS \

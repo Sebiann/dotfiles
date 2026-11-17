@@ -84,10 +84,9 @@ ${ERROR_STDERR}"""
 	
 	[dockers.backup]
 		verbose = true
-		source = [ "$HOME/.env", "$HOME/compose.yaml", "$HOME/docker-configs", "$HOME/docker-scripts" ]
+		source = [ "$HOME/.env", "$HOME/compose.yaml", "$HOME/docker-configs", "$HOME/docker-scripts", "$HOME/dockhand" ]
 		schedule = "00:00"
 		schedule-permission = "user"
-
 
 [pelican]
 	inherit = "default"

@@ -18,3 +18,10 @@ docker-configs
 docker-scripts
 .env
 {{- end }}
+
+{{ if eq .chezmoi.hostname "sebcup01" }}
+*
+!.config
+.config/*
+!.config/resticprofile
+{{ end }}

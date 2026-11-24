@@ -1,14 +1,12 @@
 {{ $passphrase := promptStringOnce . "passphrase" "passphrase" -}}
 {{- $aws_secret := promptStringOnce . "aws_secret" "AWS_SECRET_ACCESS_KEY" -}}
 {{- $aws := promptStringOnce . "aws" "AWS_ACCESS_KEY_ID" -}}
-{{- $ntfy_url := promptStringOnce . "ntfy_url" "ntfy URL (ntfys://tk_token@host/topic/)" -}}
 
 encryption = "gpg"
 [data]
     passphrase = {{ $passphrase | quote }}
     aws_secret = {{ $aws_secret | quote }}
     aws = {{ $aws | quote}}
-    ntfy_url = {{ $ntfy_url | quote }}
 [gpg]
     symmetric = true
     args = ["--quiet", "--batch", "--passphrase", {{ $passphrase | quote }}, "--no-symkey-cache"]

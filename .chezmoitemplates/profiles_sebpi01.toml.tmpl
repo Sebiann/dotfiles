@@ -1,6 +1,7 @@
-{{- /* ntfy_url is apprise-style: ntfys://tk_token@host/topic/ */ -}}
-{{- $ntfy := urlParse .ntfy_url -}}
-{{- $ntfy_http := printf "%s://%s%s" (ternary "http" "https" (eq $ntfy.scheme "ntfy")) $ntfy.host (trimSuffix "/" $ntfy.path) -}}
+{{- /* Uptime Kuma push tokens: [sebpi01] table in the encrypted .kuma-push.toml.asc */ -}}
+{{- $kuma := dict -}}
+{{- $kumaFile := joinPath .chezmoi.sourceDir ".kuma-push.toml.asc" -}}
+{{- if stat $kumaFile -}}{{- $kuma = $kumaFile | include | decrypt | fromToml | dig "sebpi01" (dict) -}}{{- end -}}
 #:schema https://creativeprojects.github.io/resticprofile/jsonschema/config-1.json
 #
 # indentation is not needed but it makes it easier to read ;)
@@ -12,34 +13,6 @@ version = "1"
 	initialize = false
 	password-file = "$HOME/.config/resticprofile/password.txt"
 
-	# success ping
-	[default.backup.send-after]
-		method = "POST"
-		url = '{{ $ntfy_http }}?title=sebpi01%20${PROFILE_NAME}%20BACKUP%20OK'
-		body = '${PROFILE_COMMAND} completed successfully'
-		[[default.backup.send-after.headers]]
-			name = "Authorization"
-			value = 'Bearer {{ $ntfy.userinfo }}'
-		[[default.backup.send-after.headers]]
-			name = "Tags"
-			value = "white_check_mark"
-
-	# failure alert
-	[default.backup.send-after-fail]
-		method = "POST"
-		url = '{{ $ntfy_http }}?title=sebpi01%20${PROFILE_NAME}%20BACKUP%20FAILED'
-		body = """${ERROR} (exit ${ERROR_EXIT_CODE})
-${ERROR_STDERR}"""
-		[[default.backup.send-after-fail.headers]]
-			name = "Authorization"
-			value = 'Bearer {{ $ntfy.userinfo }}'
-		[[default.backup.send-after-fail.headers]]
-			name = "Priority"
-			value = "urgent"
-		[[default.backup.send-after-fail.headers]]
-			name = "Tags"
-			value = "rotating_light"
-
 	[default.env]
 		AWS_SECRET_ACCESS_KEY= {{ .aws_secret | quote }}
 		AWS_ACCESS_KEY_ID= {{ .aws | quote }}
@@ -50,9 +23,10 @@ ${ERROR_STDERR}"""
 [dockers]
 	inherit = "default"
 	repository = "s3:s3.eu-central-003.backblazeb2.com/sebpi01"
-	
+
 	[dockers.backup]
 		verbose = true
 		source = [ "$HOME/.env", "$HOME/compose.yaml", "$HOME/docker-configs", "$HOME/docker-scripts" ]
 		schedule = "00:00"
 		schedule-permission = "user"
+{{- template "kuma-hooks.tmpl" (dict "host" "sebpi01" "profile" "dockers" "tokens" $kuma) }}

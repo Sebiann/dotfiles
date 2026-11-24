@@ -1,0 +1,20 @@
+{{- /*
+  Uptime Kuma push hooks for one resticprofile profile.
+  Call: {{ template "kuma-hooks.tmpl" (dict "host" "seber2" "profile" "minecraft" "tokens" $kuma) }}
+  Tokens come from the gpg-encrypted .kuma-push.toml.asc in the source dir, never from this repo in plain text.
+*/ -}}
+{{- $token := get .tokens .profile -}}
+{{- if $token }}
+
+	# Uptime Kuma push monitor: up on success, down on failure, down on silence
+	[[{{ .profile }}.backup.send-after]]
+		method = "GET"
+		url = 'https://uptime.oof.moe/api/push/{{ $token }}?status=up&msg={{ .host }}%20{{ .profile }}%20OK'
+
+	[[{{ .profile }}.backup.send-after-fail]]
+		method = "GET"
+		url = 'https://uptime.oof.moe/api/push/{{ $token }}?status=down&msg={{ .host }}%20{{ .profile }}%20FAILED%20exit%20${ERROR_EXIT_CODE}'
+{{- else }}
+
+	# WARNING: no Uptime Kuma push token for {{ .host }}.{{ .profile }} in .kuma-push.toml.asc
+{{- end }}

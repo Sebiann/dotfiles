@@ -2,4 +2,6 @@
 {{-   template "profiles_seber2.toml.tmpl" . -}}
 {{- else if eq .chezmoi.hostname "SebPi01" -}}
 {{-   template "profiles_sebpi01.toml.tmpl" . -}}
+{{- else if eq .chezmoi.hostname "sebcup01" -}}
+{{-   template "profiles_sebcup01.toml.tmpl" . -}}
 {{- end -}}

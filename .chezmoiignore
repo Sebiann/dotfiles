@@ -20,8 +20,8 @@ docker-scripts
 {{- end }}
 
 {{ if eq .chezmoi.hostname "sebcup01" }}
-*
+**
 !.config
-.config/*
 !.config/resticprofile
+!.config/resticprofile/**
 {{ end }}
